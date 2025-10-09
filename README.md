@@ -14,3 +14,13 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+- - -
+## Typical Flow:
+1. Browser goes to `index.html` where it imports the `main.jsx` file
+2. In the `main.jsx`, create a root using **ReactDOM.createRoot()** method where it takes in **docment.getElementById(*root*)** as the parmeter. Additionally, dot call **.render()** method to render `App.jsx` functional component in the DOM.
+3. `App.jsx` takes in all the pages and routes, here you set up general format of each page from each placement of functional components.
+
+## References
+* https://react-bootstrap.github.io/docs/components/navbar
+
