@@ -4,12 +4,26 @@ import { useState } from "react";
 // <Link> component from react-router-dom requires a button, useNavigate() does NOT
 import { useNavigate } from "react-router-dom";
 
+/* IMPORTANT: imported React 'useEffect()' hook in order to fetch from exposed '/moderators' API endpoint ...
+** */
+import { useEffect } from "react";
+
 // incorporate axios library to fetch data from backend
 import axios from 'axios';
 
 function CreateJob(){
     // prepare an instance of useNavigate() for later use
     const nav = useNavigate();
+
+    // manage/hold the 'moderators' state for later handling
+    const [moderators, setModerators] = useState([]);
+
+    // actual fetching of all the 'moderators' DB table records
+    useEffect(() => {
+        axios.get('http://localhost:8080/moderators')
+            .then(res => setModerators(res.data))
+            .catch(err => console.error("Error fetching moderators:", err));
+    }, []); // '[]' empty array prevents default, constant re-render/refreshing (run once only)
 
     // declare an state w/ initial values of ...
     const [formData, setFormData] = useState({
@@ -20,6 +34,7 @@ function CreateJob(){
         location: '',
         year_of_experience: 1,
         work_arrangement: 'HYBRID',
+        yearly_salary: 0,
         email: '',
         mod_id: 1
         // created_on: 0
@@ -86,20 +101,30 @@ function CreateJob(){
     // }
     async function handleSubmit(event) {
         event.preventDefault();
+
         try {
             const payload = {
-            ...formData,
-            moderator: { modId: Number(formData.mod_id) }  // build nested object
+                title: formData.title,
+                description: formData.description,
+                company: formData.company,
+                location: formData.location,
+                yearOfExperience: parseInt(formData.year_of_experience),
+                workArrangement: formData.work_arrangement.toUpperCase(),
+                yearlySalary: parseFloat(formData.yearly_salary),
+                hiringTeamEmail: formData.email,
+                moderator: {
+                    modId: parseInt(formData.mod_id)
+                }
             };
-            delete payload.mod_id; // remove old field
 
             const res = await axios.post('http://localhost:8080/jobs', payload);
-            console.log("Job offering created successfully", res);
-            nav('/jobs');
+            console.log("Job created:", res.data);
+            nav("/jobs");
         } catch (err) {
-            console.error("Submission failed:", err.response?.data || err.message);
+            console.error("Failed to create job:", err.response?.data || err.message);
         }
     }
+
 
 
 
@@ -128,7 +153,7 @@ function CreateJob(){
                 <label htmlFor="company">
                     <h3>
                         Company: {" "}
-                        <textarea value={formData.company} onChange={handleChange} id="company" type="text" name="company" required 
+                        <input value={formData.company} onChange={handleChange} id="company" type="text" name="company" required 
                                         />
                     </h3>
                 </label>
@@ -158,6 +183,21 @@ function CreateJob(){
                 </label>
                 {/* <br /> */}
 
+                <label htmlFor="yearly_salary">
+                    <h3>
+                        Yearly Salary:{" "}
+                        <input
+                            value={formData.yearly_salary || ''}
+                            onChange={handleChange}
+                            id="yearly_salary"
+                            type="number"
+                            name="yearly_salary"
+                            placeholder="120000"
+                        />
+                    </h3>
+                </label>
+                {/* <br /> */}
+
                 <label htmlFor="email">
                     <h3>
                         Registered Email: {" "}
@@ -166,12 +206,35 @@ function CreateJob(){
                 </label>
 
                  {/* <br /> */}
-                <label htmlFor="mod_id">
+                {/* <label htmlFor="mod_id">
                     <h3>
                         Moderator ID: {" "}
                         <input value={formData.mod_id} onChange={handleChange} id="mod_id" type="number" name="mod_id" alt="mod_id" placeholder="Id of moderator who posted/approved this job offering" />
                     </h3>
+                </label> */}
+
+                {/* converted input field for 'mod_id' into a dropdown select instead of type=numbers
+                that way the user that creates a job would NOT have to guess which are valid moderator ID (when they could just select one) */}
+                <label htmlFor="mod_id">
+                    <h3>
+                        Moderator ID:
+                        <select
+                            id="mod_id"
+                            name="mod_id"
+                            value={formData.mod_id}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">-- Select Moderator --</option>
+                            {moderators.map((mod) => (
+                                <option key={mod.modId} value={mod.modId}>
+                                    {mod.username} ({mod.modId})
+                                </option>
+                            ))}
+                        </select>
+                    </h3>
                 </label>
+
                 {/* Aside: 'mod_id' & 'created_on' are supposed to be generated by JPA --- aka not manually inputted ... unsure if include*/}
                 
                 {/* possibly include a human/machine detector --- captcha */}
