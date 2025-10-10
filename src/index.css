@@ -87,7 +87,7 @@ nav{
   margin-bottom: 0; /* ensure no extra margin is added */
 }
 
-#title, #description, #company, #location, #year_of_experience, #work_arrangement, #email { 
+#title, #description, #company, #location, #year_of_experience, #work_arrangement, #email, #mod_id { 
 /* , #mod_id, #created_on { */
 /* #human{ */
     border-radius: 8px;

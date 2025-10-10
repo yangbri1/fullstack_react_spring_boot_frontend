@@ -24,7 +24,7 @@ export default function Moderators(){
         // async function to retrieve data from MongoDB db
         async function getData(){
             try {
-                let res = await fetch(`http://localhost:3000/moderators`);
+                let res = await fetch(`http://localhost:8080/moderators`);
                 let data = await res.json();    // this step automatically done if using axios
                 
                 setModerators(data);

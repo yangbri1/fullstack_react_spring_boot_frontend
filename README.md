@@ -22,5 +22,14 @@ If you are developing a production application, we recommend using TypeScript wi
 3. `App.jsx` takes in all the pages and routes, here you set up general format of each page from each placement of functional components.
 
 ## References
+### Navigation Bar Ideas
 * https://react-bootstrap.github.io/docs/components/navbar
 
+### Website Color Schemes
+* https://colorhunt.co/palettes/popular
+
+### Emoji Source
+* https://emojidb.org/work-emojis
+
+###
+* 

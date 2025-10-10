@@ -11,6 +11,7 @@ import Moderators from './pages/Moderators/Moderators.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 import CreateJob from './pages/Jobs/CreateJob.jsx';
+import DeleteJob from './pages/Jobs/DeleteJob.jsx';
 // bring in navigation links to App.jsx rather than individual pages (more efficient & App.jsx is the brain of the operation)
 import NavBar from './components/NavBar.jsx';
 // import custom <Footer> component
@@ -25,7 +26,8 @@ function App() {
       <NavBar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/jobs/add_job' element={<CreateJob />} />
+        <Route path='/jobs/addJob' element={<CreateJob />} />
+        <Route path='/jobs/delete_job/:id' element={<DeleteJob />} />
         <Route path='/jobs' element={<Jobs />} />
         <Route path='/moderators' element={<Moderators />} />
         {/* catch all route for any unforeseen URL paths (should be last in order otw may interfere w/ other routes) */}

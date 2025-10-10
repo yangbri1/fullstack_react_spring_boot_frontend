@@ -19,7 +19,7 @@ export default function Jobs(){
         async function getData(){
             try {
                 // fetch data from forums endpoint in backend
-                let res = await fetch(`http://localhost:3000/jobs`);
+                let res = await fetch(`http://localhost:8080/jobs`);
                 // convert to usable JSON string format (obj)
                 let data = await res.json();    // omit this step while using axios (inherently done)
                 // sets "jobs" state to retrieved data aka get ALL posts from backend
@@ -36,7 +36,7 @@ export default function Jobs(){
     // handler for delete functionality -- always need "async" to pair w/ "await" to fetch data from BE & try-catch (as precaution)
     async function handleDelete(id){
         try {
-            const res = await axios.delete(`http://localhost:3000/jobs/${id}`)
+            const res = await axios.delete(`http://localhost:8080/jobs/${id}`)
             // redeclare state to new changes
             // Recall: Do NOT include {} -- else filter will encapsulate ALL jobs at hand (delete all when pressed)"
             setPosts(jobs.filter(job =>
@@ -62,7 +62,8 @@ export default function Jobs(){
                             
                             {/* // populate page with fetched job offering data & dynamically <Link> up each one to own page */}
                             <Link to={`/jobs/${offering._id}`}>
-                                <h2  style={{}} title="Some jobs">{title} [{company}]</h2>
+                                <h2 style={{fontStyle: "italic", color: "aqua"}} title="Some jobs">{title} [{company}]</h2>
+                                <p style={{}}>{description}</p>
                             </Link>
                             <Link to={`/jobs/update_offering/${offering._id}`}>
                                 <button id="edit-btn" title="Redo or undo">Edit📝</button>
