@@ -4,6 +4,9 @@ import { useState } from "react";
 // <Link> component from react-router-dom requires a button, useNavigate() does NOT
 import { useNavigate } from "react-router-dom";
 
+// import 'useParams()' React hook to extract data from the dynamic query in URL path (the 'job_id') 
+import { useParams } from "react-router-dom";
+
 /* IMPORTANT: imported React 'useEffect()' hook in order to fetch from exposed '/moderators' API endpoint ...
 ** */
 import { useEffect } from "react";
@@ -11,7 +14,7 @@ import { useEffect } from "react";
 // incorporate axios library to fetch data from backend
 import axios from 'axios';
 
-function CreateJob(){
+function UpdateJob(){
     // prepare an instance of useNavigate() for later use
     const nav = useNavigate();
 
@@ -40,12 +43,32 @@ function CreateJob(){
         // created_on: 0
     });
 
-    // testing useState() for each props in object
-    // const [heading, setHeading] = useState('');
-    // const [urgency, setUrgency] = useState(1);
-    // const [message, setMessage] = useState('');
-    // const [signed, setSigned] = useState('');
-    // const [human, setHuman] = useState(false);
+    // destructure out unique "job_id" from URL
+    const { job_id } = useParams();
+
+    console.log("URL param job_id:", job_id);
+
+    // 'useEffect()' React hook to fetch 'job' record by given 'job_id'
+    useEffect(() => {
+        axios.get(`http://localhost:8080/jobs/${job_id}`)
+            .then(res => {
+                // extract the form data from URL
+                const job = res.data;
+                // assign form data to respective variables 
+                setFormData({
+                    title: job.title,
+                    description: job.description,
+                    company: job.company,
+                    location: job.location,
+                    year_of_experience: job.yearOfExperience,
+                    work_arrangement: job.workArrangement,
+                    yearly_salary: job.yearlySalary,
+                    email: job.hiringTeamEmail,
+                    mod_id: job.moderator?.modId || '' // fallback in case moderator is null
+                });
+            })
+            .catch(err => console.error("Error fetching job details:", err));
+    }, [job_id]);   // keeps id
 
     /* component (event) handler functions */
     // function handleClick(event){
@@ -104,6 +127,7 @@ function CreateJob(){
 
         try {
             const payload = {
+                jobId: parseInt(job_id),
                 title: formData.title,
                 description: formData.description,
                 company: formData.company,
@@ -117,11 +141,11 @@ function CreateJob(){
                 }
             };
 
-            const res = await axios.post('http://localhost:8080/jobs', payload);
-            console.log("Job created:", res.data);
+            const res = await axios.patch(`http://localhost:8080/jobs/${job_id}`, payload);
+            console.log("Job edited:", res.data);
             nav("/jobs");
         } catch (err) {
-            console.error("Failed to create job:", err.response?.data || err.message);
+            console.error("Failed to edit job:", err.response?.data || err.message);
         }
     }
 
@@ -131,7 +155,7 @@ function CreateJob(){
     return(
         // React fragments to as overhead parent element else error
         <>
-            <h1>Create Job Offering</h1>
+            <h1>Update Job Offering</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="title">
                     <h3>
@@ -261,4 +285,4 @@ function CreateJob(){
     )
 }   
 
-export default CreateJob;
+export default UpdateJob;

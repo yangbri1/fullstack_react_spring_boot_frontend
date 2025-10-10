@@ -18,12 +18,17 @@ export default function Jobs(){
     useEffect(() => {
         async function getData(){
             try {
+                console.log("Attempting to fetch jobs ... ");
                 // fetch data from forums endpoint in backend
                 let res = await fetch(`http://localhost:8080/jobs`);
+                console.log("Response status:", res.status);
                 // convert to usable JSON string format (obj)
                 let data = await res.json();    // omit this step while using axios (inherently done)
+                console.log("Data fetched:", data);     // --- array of jobs
                 // sets "jobs" state to retrieved data aka get ALL posts from backend
                 setJobs(data);
+                // checking fetch data
+                console.log("Jobs list:", jobs);
             } catch (err) {
                 // console out error in encounter any
                 console.error(err);
@@ -34,20 +39,18 @@ export default function Jobs(){
     }, []); // dependencies list/array set to empty -- only render initially (once)
     
     // handler for delete functionality -- always need "async" to pair w/ "await" to fetch data from BE & try-catch (as precaution)
-    async function handleDelete(id){
+    async function handleDelete(id) {
         try {
-            const res = await axios.delete(`http://localhost:8080/jobs/${id}`)
-            // redeclare state to new changes
-            // Recall: Do NOT include {} -- else filter will encapsulate ALL jobs at hand (delete all when pressed)"
-            setPosts(jobs.filter(job =>
-            // if job's unique "_id" does NOT equal to backend, keep it
-            job._id !== id
-        ));
+            console.log("Deleting job with id:", id);
+            const res = await axios.delete(`http://localhost:8080/jobs/${id}`);
+            console.log("Delete response:", res.data);
+
+            setJobs(jobs.filter(job => job.jobId !== id));
         } catch (err) {
-            console.error(err);
+            console.error("Delete error:", err);
         }
-        
     }
+
     return(
         <>
             <h1 title="Job offerings here" alt="Job Offerings">Job Offerings Page</h1>
@@ -58,23 +61,31 @@ export default function Jobs(){
                     // destructure out wanted info
                     const { title, description, company } = offering;
                     return(
-                        <div key={offering._id}>
+                        <div key={offering.jobId}>
                             
                             {/* // populate page with fetched job offering data & dynamically <Link> up each one to own page */}
-                            <Link to={`/jobs/${offering._id}`}>
+                            <Link to={`/jobs/${offering.jobId}`}>
                                 <h2 style={{fontStyle: "italic", color: "aqua"}} title="Some jobs">{title} [{company}]</h2>
                                 <p style={{}}>{description}</p>
                             </Link>
-                            <Link to={`/jobs/update_offering/${offering._id}`}>
+                            {/* IMPORTANT: make sure the URL path is exactly same as in 'App.jsx' */}
+                            {/* <Link to={`/jobs/update_job/${offering.jobId}`}>
+                                <button id="edit-btn" title="Redo or undo">Edit📝</button>
+                            </Link> */}
+                            <Link to={`/jobs/update_job/${offering.jobId}`}>
                                 <button id="edit-btn" title="Redo or undo">Edit📝</button>
                             </Link>
+
+                            {/* <Link to={`/jobs/update_job/${jobs.jobId}`}>Update</Link> */}
+
+
                             {/* <Link to={`/jobs/delete_offering/${offering._id}`}>Delete</Link> */}
                             {/* DeleteJob(offering._id); */}
 
                             <label id="delete-btn">
                                 <input type="button" id="delete-btn" value="Delete🗑️" title="Are you sure?"
                                     onClick={() => {
-                                        handleDelete(offering._id);
+                                        handleDelete(offering.jobId);
                                     }}
                                         // dispatch({ type: ACTION.REMOVETASK, payload: { id: task.id}})} 
                                     // https://www.geeksforgeeks.org/how-to-disable-a-button-in-reactjs/
