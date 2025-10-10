@@ -20,6 +20,7 @@ If you are developing a production application, we recommend using TypeScript wi
 1. Browser goes to `index.html` where it imports the `main.jsx` file
 2. In the `main.jsx`, create a root using **ReactDOM.createRoot()** method where it takes in **docment.getElementById(*root*)** as the parmeter. Additionally, dot call **.render()** method to render `App.jsx` functional component in the DOM.
 3. `App.jsx` takes in all the pages and routes, here you set up general format of each page from each placement of functional components.
+4. From here for every page/component/route that were to be established, make sure to import and include them into the `App.jsx` in order to reflect the changes on the DOM.
 
 ## References
 ### Navigation Bar Ideas
