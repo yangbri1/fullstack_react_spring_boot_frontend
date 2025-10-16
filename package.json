@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/yangbri1/fullstack_react_spring_boot_frontend",
+  "homepage": "https://yangbri1.github.io/fullstack_react_spring_boot_frontend",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

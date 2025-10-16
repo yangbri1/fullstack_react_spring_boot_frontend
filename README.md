@@ -55,7 +55,8 @@ If you are developing a production application, we recommend using TypeScript wi
     }
 }
 ```
-***NOTICE: Here it's `.io` NOT `.com` otherwise the URL link is nearly identical to the Github repository***
+***NOTICE: Here it's `.io` NOT `.com` AND username before Github
+`http://<your-username>.github.io/<repository-name>`***
 
 ### 3. Push React project upstream to Github (if not already done)
 
@@ -66,4 +67,4 @@ If you are developing a production application, we recommend using TypeScript wi
 * NOTICE: ***Different from usual `npm run dev` w/ vite***
 
 ### 5. Visit hosted Github site:
-* https://github.io/yangbri1/fullstack_react_spring_boot_frontend/
+* https://yangbri1.github.io/fullstack_react_spring_boot_frontend/
