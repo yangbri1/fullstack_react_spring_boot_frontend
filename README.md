@@ -32,5 +32,35 @@ If you are developing a production application, we recommend using TypeScript wi
 ### Emoji Source
 * https://emojidb.org/work-emojis
 
-###
-* 
+### Markdown Syntax
+* https://docs.readme.com/rdmd/docs/code-blocks
+
+## LINK TO FRONT-END:
+> https://github.com/yangbri1/fullstack_mrs_crud_backend
+
+
+- - -
+
+# Hosting/Deploying Front-End React to GitHub Pages
+### 1. Install Github Pages package:
+* `npm install gh-pages --save-dev`
+
+### 2. Add below script commands to `package.json`:
+```
+{
+    "homepage": "https://github.com/yangbri1/fullstack_react_spring_boot_frontend",
+    "scripts": {
+        "predeploy": "npm run build"
+        "deploy": "gh-pages -d build"
+    }
+}
+```
+
+### 3. Push React project upstream to Github (if not already done)
+
+### 4. Deploy this React front-end:
+* `npm run deploy` (This command prompts Github to automatically create a branch *gh-pages* & host it)
+* **NOTICE:** ***Different from usual `npm run dev` w/ vite***
+
+### 5. Visit hosted Github site:
+* https://yangbri1.github.io/
