@@ -48,19 +48,22 @@ If you are developing a production application, we recommend using TypeScript wi
 ### 2. Add below script commands to `package.json`:
 ```
 {
-    "homepage": "https://github.com/yangbri1/fullstack_react_spring_boot_frontend",
+    "homepage": "https://github.io/yangbri1/fullstack_react_spring_boot_frontend",
     "scripts": {
         "predeploy": "npm run build"
         "deploy": "gh-pages -d build"
     }
 }
 ```
+***NOTICE: Here it's `.io` NOT `.com` otherwise the URL link is nearly identical to the Github repository***
 
 ### 3. Push React project upstream to Github (if not already done)
 
 ### 4. Deploy this React front-end:
-* `npm run deploy` (This command prompts Github to automatically create a branch *gh-pages* & host it)
-* **NOTICE:** ***Different from usual `npm run dev` w/ vite***
+#### This command prompts Github to automatically create a branch *gh-pages* & host it
+* `npm run deploy` 
+
+* NOTICE: ***Different from usual `npm run dev` w/ vite***
 
 ### 5. Visit hosted Github site:
-* https://yangbri1.github.io/
+* https://github.io/yangbri1/fullstack_react_spring_boot_frontend/
