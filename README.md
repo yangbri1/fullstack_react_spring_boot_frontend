@@ -42,10 +42,10 @@ If you are developing a production application, we recommend using TypeScript wi
 - - -
 
 # Hosting/Deploying Front-End React to GitHub Pages
-### 1. Install Github Pages package:
-* `npm install gh-pages --save-dev`
+### 1. Install Github Pages package
+* (1) `npm install gh-pages --save-dev`
 
-### 2. Add below script commands to `package.json`:
+### 2. Add script commands to `package.json`
 ```
 {
     "homepage": "https://github.io/yangbri1/fullstack_react_spring_boot_frontend",
@@ -55,6 +55,7 @@ If you are developing a production application, we recommend using TypeScript wi
     }
 }
 ```
+* (2) Aside: Make sure to include the "homepage" line tp `package.json` as well
 * ***NOTICE: Here it's `.io` NOT `.com` AND username before Github
 `http://<your-username>.github.io/<repository-name>`***
 * Changed this line ...
@@ -62,18 +63,37 @@ If you are developing a production application, we recommend using TypeScript wi
 "deploy": "gh-pages -d build"
 ```
 * into below in order to not conflict with vite's existing "build" script command 
+ 
  ```
- "deploy": "gh-pages -d dist"
+"deploy": "gh-pages -d dist"    ------- (3)
  ```
 
+### 3. Set/Add `base` in `vite.config.js` file to **repository name**
+#### Crucial step for when GitHub repo is hosted at `http://github.com/yangbri1/fullstack_react_spring_boot_frontend/` & being deployed to GitHub Pages (aka not using custom domain)
+```
+(4)
+import { defineConfig } from 'vite'
 
-### 3. Push React project upstream to Github (if not already done)
+// https://vite.dev/config/
+export default defineConfig({
+  base: '/fullstack_react_spring_boot_frontend/',
+})
+```
+* Note: Must follow exact notation --- `/<repo-name>/`
+* Otherwise, nothing appears for this customized Github Pages --- Error **404** when inspecting element on browser
+ 
+### 4. Push React project upstream to Github (if not already done) ------- (5)
 
-### 4. Deploy this React front-end:
-#### This command prompts Github to automatically create a branch *gh-pages* & host it
-* `npm run deploy` 
+### 5. Build the project first
+#### Vite generates `dist/` folder with static files upon running below command
+* (6) `npm run build`
 
+### 6. Deploy this React front-end
+#### This command prompts Github to automatically create a branch *gh-pages* & push `dist/` contents to said *gh-pages* branch
+* (7) `npm run deploy` OR `gh-pages -d dist` (seen in `package.json`)
 * NOTICE: ***Different from usual `npm run dev` w/ vite***
 
-### 5. Visit hosted Github site:
+
+
+### 7. Visit hosted Github site:
 * https://yangbri1.github.io/fullstack_react_spring_boot_frontend/
