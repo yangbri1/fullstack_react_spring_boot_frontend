@@ -51,12 +51,21 @@ If you are developing a production application, we recommend using TypeScript wi
     "homepage": "https://github.io/yangbri1/fullstack_react_spring_boot_frontend",
     "scripts": {
         "predeploy": "npm run build"
-        "deploy": "gh-pages -d build"
+        "deploy": "gh-pages -d dist"
     }
 }
 ```
-***NOTICE: Here it's `.io` NOT `.com` AND username before Github
+* ***NOTICE: Here it's `.io` NOT `.com` AND username before Github
 `http://<your-username>.github.io/<repository-name>`***
+* Changed this line ...
+```
+"deploy": "gh-pages -d build"
+```
+* into below in order to not conflict with vite's existing "build" script command 
+ ```
+ "deploy": "gh-pages -d dist"
+ ```
+
 
 ### 3. Push React project upstream to Github (if not already done)
 
