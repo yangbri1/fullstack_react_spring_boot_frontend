@@ -24,7 +24,9 @@ export default function Moderators(){
         // async function to retrieve data from MongoDB db
         async function getData(){
             try {
-                let res = await fetch(`http://localhost:8080/moderators`);
+                // update fetch calls to the Java Spring-Boot backend deployed in an AWS EC2 instance
+                let res = await fetch(`http://ec2-3-144-218-12.us-east-2.compute.amazonaws.com:8080/moderators`);
+                // let res = await fetch(`http://localhost:8080/moderators`);
                 let data = await res.json();    // this step automatically done if using axios
                 
                 setModerators(data);

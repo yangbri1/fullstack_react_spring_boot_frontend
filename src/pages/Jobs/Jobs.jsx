@@ -20,7 +20,9 @@ export default function Jobs(){
             try {
                 console.log("Attempting to fetch jobs ... ");
                 // fetch data from forums endpoint in backend
-                let res = await fetch(`http://localhost:8080/jobs`);
+                /* update fetch calls to Java Spring-Boot backend deployed in AWS EC2 instance */
+                let res = await fetch(`http://ec2-3-144-218-12.us-east-2.compute.amazonaws.com:8080/jobs`);
+                // let res = await fetch(`http://localhost:8080/jobs`);
                 console.log("Response status:", res.status);
                 // convert to usable JSON string format (obj)
                 let data = await res.json();    // omit this step while using axios (inherently done)
